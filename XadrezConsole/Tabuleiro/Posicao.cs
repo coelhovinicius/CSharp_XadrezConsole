@@ -1,5 +1,5 @@
 ﻿/* >>> CLASSE POSICAO - PASTA TABULEIRO <<< */
-namespace Tabuleiro // Renomeado de "XadrezConsole.Tabuleiro" para "Tabuleiro"
+namespace Tabuleiro // Alterado de "XadrezConsole.Tabuleiro" para "Tabuleiro"
 {
     class Posicao
     {
