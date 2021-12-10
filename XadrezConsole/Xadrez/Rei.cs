@@ -1,4 +1,5 @@
-﻿using Tabuleiro;
+﻿/* >>> CLASSE REI - PASTA XADREZ <<< */
+using Tabuleiro;
 
 namespace Xadrez // Alterado
 {

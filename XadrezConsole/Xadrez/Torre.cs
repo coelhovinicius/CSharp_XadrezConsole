@@ -1,4 +1,5 @@
-﻿using Tabuleiro;
+﻿/* >>> CLASSE TORRE - PASTA XADREZ <<< */
+using Tabuleiro;
 
 namespace Xadrez // Alterado
 {
