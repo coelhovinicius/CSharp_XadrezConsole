@@ -18,9 +18,11 @@ namespace XadrezConsole
     {
         static void Main(string[] args)
         {
-            /* PosicaoXadrez pos = new PosicaoXadrez('c', 7);
+            /* PosicaoXadrez pos = new PosicaoXadrez('c', 7);    A letra 'c' entre aspas simples indica ao programa compilar a 
+                                                               * logica utilizando a representacao Binaria dessa letra
+                                                               * ("c" minusculo). ; 
 
-             Console.WriteLine(pos);
+            Console.WriteLine(pos);
 
              Console.WriteLine(pos.ToPosicao());
 
@@ -28,15 +30,14 @@ namespace XadrezConsole
 
             try
             {
-                TabuleiroClasse tab = new TabuleiroClasse(8, 8);
+                PartidaDeXadrez partida = new PartidaDeXadrez(); // Instancia a partida de xadrez
 
-                tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
+              /*  tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
                 tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(1, 3));
                 tab.ColocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 2));
-                tab.ColocarPeca(new Torre(tab, Cor.Branca), new Posicao(3, 5));
+                tab.ColocarPeca(new Torre(tab, Cor.Branca), new Posicao(3, 5)); */
 
-                Tela.ImprimirTabuleiro(tab);
-
+                Tela.ImprimirTabuleiro(partida.tab);
             }
 
             catch (TabuleiroException e)

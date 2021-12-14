@@ -1,5 +1,6 @@
 ﻿/* >>> CLASSE POSICAOXADREZ - PASTA XADREZ <<< */
 using Tabuleiro;
+
 namespace Xadrez
 {
     class PosicaoXadrez
@@ -13,14 +14,15 @@ namespace Xadrez
             this.Linha = linha;
         }
 
-        public Posicao ToPosicao() // Faz o ajuste da posicao informada com a posicao na matriz
+        public Posicao ToPosicao() // Faz o ajuste da posicao do xadrez com a posicao da matriz
         {
-            return new Posicao(8 - Linha, Coluna -'a');
+            return new Posicao(8 - Linha, Coluna -'a'); /* A letra 'a' entre aspas simples indica ao programa compilar a logica
+                                                         * utilizando a representacao Binaria dessa letra ("a" minusculo); */
         }
 
         public override string ToString()
         {
-            return "" + Coluna + Linha;
+            return "" + Coluna + Linha; // As Aspas Vazias forcam a conversao para string, evitando erros
         }
     }
 }
