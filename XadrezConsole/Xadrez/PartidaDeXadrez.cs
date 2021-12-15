@@ -11,12 +11,14 @@ namespace Xadrez
         public TabuleiroClasse tab { get; private set; } // Cria uma variavel para as definicoes do tabuleiro de xadrez
         private int turno; // Variavel para controlar os turnos jogados
         private Cor JogadorAtual; // Variavel para controlar a vez de quem joga
+        public bool Terminada { get; private set; } // Indica se a partida terminou ou nao
 
         public PartidaDeXadrez()
         {
             tab = new TabuleiroClasse(8, 8); // Define as dimensoes da matriz para o tabuleiro de xadrez
             turno = 1; // Inicia com o turno 1
             JogadorAtual = Cor.Branca; // Inicia com o jogador das pecas brancas (regra do xadrez)
+            Terminada = false; // Indica que a partida ainda esta em andamento
             ColocarPecas(); // Metodo auxiliar para
         }
 

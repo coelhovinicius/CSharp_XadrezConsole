@@ -1,6 +1,7 @@
 ﻿/* >>> CLASSE TELA  - CRIADA DIRETO DO PROJETO XADREZCONSOLE <<< */
 using System;
 using Tabuleiro;
+using Xadrez;
 
 namespace XadrezConsole
 {
@@ -28,6 +29,15 @@ namespace XadrezConsole
 
             }
             Console.WriteLine("  a b c d e f g h"); // Ao fim de cada coluna, imprime as letras de a a h do tabuleiro de xadrez 
+        }
+
+        public static PosicaoXadrez LerPosicaoXadrez() // Metodo para ler a posicao digitada
+        {
+            string s = Console.ReadLine(); // Le a posicao informacao pelo usuario
+            char coluna = s[0]; // Variavel para receber a letra da coluna da posicao digitada (posicao 0 da string informada)
+            int linha = int.Parse(s[1] + ""); // Variavel para receber o numero da linha da posicao digitada (posicao 1 da string)
+            return new PosicaoXadrez(coluna, linha); // Retorna a posicao indicada
+
         }
 
         public static void ImprimirPeca(Peca peca)
