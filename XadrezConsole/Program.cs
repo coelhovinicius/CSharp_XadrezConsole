@@ -34,39 +34,51 @@ namespace XadrezConsole
 
                 while (!partida.Terminada) // Enquanto a partida nao estiver terminada
                 {
-                    Console.Clear(); // Limpa a tela
-                    Tela.ImprimirTabuleiro(partida.tab); // Imprime o tabuleiro
+                    try
+                    {
+                        Console.Clear(); // Limpa a tela
+                        Tela.ImprimirTabuleiro(partida.Tab); // Imprime o tabuleiro
+                        Console.WriteLine();
+                        Console.WriteLine("Turno: " + partida.Turno);
+                        Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
 
-                    Console.WriteLine();
-                    Console.Write("Origem: ");
-                    Posicao origem = Tela.LerPosicaoXadrez().ToPosicao(); // Le a posicao de origem informada pelo usuario
+                        Console.WriteLine();
+                        Console.Write("Origem: ");
+                        Posicao origem = Tela.LerPosicaoXadrez().ToPosicao(); // Le a posicao de origem informada pelo usuario
+                        partida.ValidarPosicaoDeOrigem(origem);
 
-                    bool[,] posicoesPossiveis = partida.tab.Peca(origem).MovimentosPossiveis();
+                        bool[,] posicoesPossiveis = partida.Tab.Peca(origem).MovimentosPossiveis();
 
-                    Console.Clear();
-                    Tela.ImprimirTabuleiro(partida.tab, posicoesPossiveis);
+                        Console.Clear();
+                        Tela.ImprimirTabuleiro(partida.Tab, posicoesPossiveis);
 
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Posicao destino = Tela.LerPosicaoXadrez().ToPosicao(); // Le a posicao de destino informada pelo usuario
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Posicao destino = Tela.LerPosicaoXadrez().ToPosicao(); // Le a posicao de destino informada pelo usuario
+                        partida.ValidarPosicaoDeDestino(origem, destino);
 
-                    partida.ExecutaMovimento(origem, destino); // Executa o metodo para fazer o movimento da peca
+                        partida.RealizaJogada(origem, destino); // Executa o metodo para fazer o movimento da peca
+                    }
+
+                    /*  tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
+                      tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(1, 3));
+                      tab.ColocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 2));
+                      tab.ColocarPeca(new Torre(tab, Cor.Branca), new Posicao(3, 5)); */
+
+                    // Tela.ImprimirTabuleiro(partida.tab);
+
+                    catch (TabuleiroException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadLine();
+                    }
                 }
-
-                /*  tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(0, 0));
-                  tab.ColocarPeca(new Torre(tab, Cor.Preta), new Posicao(1, 3));
-                  tab.ColocarPeca(new Rei(tab, Cor.Preta), new Posicao(0, 2));
-                  tab.ColocarPeca(new Torre(tab, Cor.Branca), new Posicao(3, 5)); */
-
-                // Tela.ImprimirTabuleiro(partida.tab);
             }
-
             catch (TabuleiroException e)
             {
                 Console.WriteLine(e.Message);
             }
-
-            Console.ReadLine();
         }
     }
 }
+

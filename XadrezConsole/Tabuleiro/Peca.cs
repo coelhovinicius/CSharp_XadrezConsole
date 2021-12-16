@@ -21,6 +21,27 @@ namespace Tabuleiro // Alterado
             QtdeMovimentos++;
         }
 
+        public bool ExisteMovimentosPossiveis() // Verifica es a peca esta com os movimentos bloqueados
+        {
+            bool[,] mat = MovimentosPossiveis(); // Variavel temporaria recebendo os movimentos possiveis
+            for (int i = 0; i < Tab.Linhas; i++)
+            {
+                for (int j = 0; j < Tab.Colunas; j++)
+                {
+                    if (mat[i, j])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool PodeMoverPara(Posicao pos) // Verifica se e possivel movimentar a peca para a posicao selecionada
+        {
+            return MovimentosPossiveis()[pos.Linha, pos.Coluna];
+        }
+
         public abstract bool[,] MovimentosPossiveis(); // Matriz de valores Booleanos (true / false)
     }
 }
