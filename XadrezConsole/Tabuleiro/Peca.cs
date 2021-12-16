@@ -42,7 +42,7 @@ namespace Tabuleiro // Alterado
             return false;
         }
 
-        public bool PodeMoverPara(Posicao pos) // Verifica se e possivel movimentar a peca para a posicao selecionada
+        public bool MovimentoPossivel(Posicao pos) // Verifica se e possivel movimentar a peca para a posicao selecionada
         {
             return MovimentosPossiveis()[pos.Linha, pos.Coluna];
         }
