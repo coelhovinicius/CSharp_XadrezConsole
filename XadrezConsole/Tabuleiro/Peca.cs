@@ -21,6 +21,11 @@ namespace Tabuleiro // Alterado
             QtdeMovimentos++;
         }
 
+        public void DecrementarQtdeMovimentos() // Controla a quantidade de movimentos dos jogadores na partida
+        {
+            QtdeMovimentos--;
+        }
+
         public bool ExisteMovimentosPossiveis() // Verifica es a peca esta com os movimentos bloqueados
         {
             bool[,] mat = MovimentosPossiveis(); // Variavel temporaria recebendo os movimentos possiveis
