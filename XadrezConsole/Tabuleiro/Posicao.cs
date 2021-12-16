@@ -12,6 +12,12 @@ namespace Tabuleiro // Alterado de "XadrezConsole.Tabuleiro" para "Tabuleiro"
             this.Coluna = coluna;
         }
 
+        public void DefinirValores(int linha, int coluna) // Metodo para definir valores da posicao
+        {
+            this.Linha = linha; // "this" atribui o valor diretamento ao novo objeto instanciado
+            this.Coluna = coluna;
+        }
+
         public override string ToString()
         {
             return Linha + ", " + Coluna;

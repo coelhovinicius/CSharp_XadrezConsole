@@ -1,7 +1,7 @@
 ﻿/* >>> CLASSE PECA - PASTA TABULEIRO */
 namespace Tabuleiro // Alterado
 {
-    class Peca
+    abstract class Peca
     {
         public Posicao Posicao { get; set; }
         public Cor Cor { get; protected set; } // "protected set" - So pode ser alterada pela classe e suas subclasses
@@ -20,5 +20,7 @@ namespace Tabuleiro // Alterado
         {
             QtdeMovimentos++;
         }
+
+        public abstract bool[,] MovimentosPossiveis(); // Matriz de valores Booleanos (true / false)
     }
 }
