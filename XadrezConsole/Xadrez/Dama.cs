@@ -1,17 +1,17 @@
-﻿/* >>> CLASSE TORRE - PASTA XADREZ <<< */
+﻿/* >>> CLASSE DAMA - PASTA XADREZ <<< */
 using Tabuleiro;
 
-namespace Xadrez // Alterado
+namespace Xadrez
 {
-    class Torre : Peca
+    class Dama : Peca
     {
-        public Torre(TabuleiroClasse tab, Cor cor) : base(tab, cor)
+        public Dama(TabuleiroClasse tab, Cor cor) : base(tab, cor)
         {
         }
 
         public override string ToString()
         {
-            return "T";
+            return "D";
         }
 
         private bool PodeMover(Posicao pos)
@@ -20,7 +20,7 @@ namespace Xadrez // Alterado
             return p == null || p.Cor != Cor; // Caso a posicao esteja vazia, movimenta a peca (captura a peca adversaria)
         }
 
-        public override bool[,] MovimentosPossiveis() // Metodo para controlar os movimentos da Torre
+        public override bool[,] MovimentosPossiveis() // Metodo para controlar os movimentos da Dama
         {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas]; // Matriz Booleana para controlar as posicoes do tabuleiro
 
@@ -47,7 +47,7 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha, pos.Coluna -1);
+                pos.DefinirValores(pos.Linha, pos.Coluna - 1);
             }
 
             pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna); // Verifica Abaixo
@@ -69,7 +69,51 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha, pos.Coluna +1);
+                pos.DefinirValores(pos.Linha, pos.Coluna + 1);
+            }
+
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1); // Verificacao Acima a Esquerda
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor) // Caso haja uma peca na posicao e ela seja do adversario
+                {
+                    break; // Encerra a movimentacao
+                }
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna - 1);
+            }
+
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1); // Verificacao Abaixo a Esquerda
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor) // Caso haja uma peca na posicao e ela seja do adversario
+                {
+                    break; // Encerra a movimentacao
+                }
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna - 1);
+            }
+
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1); // Verificacao Abaixo a Direita
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor) // Caso haja uma peca na posicao e ela seja do adversario
+                {
+                    break; // Encerra a movimentacao
+                }
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna + 1);
+            }
+
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1); // Verificacao Acima a Direita
+            while (Tab.PosicaoValida(pos) && PodeMover(pos))
+            {
+                mat[pos.Linha, pos.Coluna] = true;
+                if (Tab.Peca(pos) != null && Tab.Peca(pos).Cor != Cor) // Caso haja uma peca na posicao e ela seja do adversario
+                {
+                    break; // Encerra a movimentacao
+                }
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna + 1);
             }
 
             return mat;

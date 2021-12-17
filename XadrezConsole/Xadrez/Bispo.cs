@@ -1,17 +1,17 @@
-﻿/* >>> CLASSE TORRE - PASTA XADREZ <<< */
+﻿/* >>> CLASSE BISPO - PASTA XADREZ <<< */
 using Tabuleiro;
 
-namespace Xadrez // Alterado
+namespace Xadrez
 {
-    class Torre : Peca
+    class Bispo : Peca
     {
-        public Torre(TabuleiroClasse tab, Cor cor) : base(tab, cor)
+        public Bispo(TabuleiroClasse tab, Cor cor) : base(tab, cor)
         {
         }
 
-        public override string ToString()
+        public override string ToString() // override ToString retornando a letra "R"
         {
-            return "T";
+            return "B";
         }
 
         private bool PodeMover(Posicao pos)
@@ -20,14 +20,14 @@ namespace Xadrez // Alterado
             return p == null || p.Cor != Cor; // Caso a posicao esteja vazia, movimenta a peca (captura a peca adversaria)
         }
 
-        public override bool[,] MovimentosPossiveis() // Metodo para controlar os movimentos da Torre
+        public override bool[,] MovimentosPossiveis() // Metodo para controlar os movimentos do Bispo
         {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas]; // Matriz Booleana para controlar as posicoes do tabuleiro
 
             Posicao pos = new Posicao(0, 0); // Teste para instanciar uma posicao
 
             // Verificacao das casas para movimentacao
-            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna); // Verifica Acima
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1); // Verificacao Acima a Esquerda
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -35,11 +35,10 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha - 1, pos.Coluna);
-                // pos.Linha = pos.Linha - 1; // Se nao, movimenta a peca
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna - 1);
             }
 
-            pos.DefinirValores(Posicao.Linha, Posicao.Coluna - 1); // Verifica a Esquerda
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1); // Verificacao Abaixo a Esquerda
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -47,10 +46,10 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha, pos.Coluna -1);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna - 1);
             }
 
-            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna); // Verifica Abaixo
+            pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1); // Verificacao Abaixo a Direita
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -58,10 +57,10 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha + 1, pos.Coluna);
+                pos.DefinirValores(pos.Linha + 1, pos.Coluna + 1);
             }
 
-            pos.DefinirValores(Posicao.Linha, Posicao.Coluna + 1); // Verifica a Direita
+            pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1); // Verificacao Acima a Direita
             while (Tab.PosicaoValida(pos) && PodeMover(pos))
             {
                 mat[pos.Linha, pos.Coluna] = true;
@@ -69,7 +68,7 @@ namespace Xadrez // Alterado
                 {
                     break; // Encerra a movimentacao
                 }
-                pos.DefinirValores(pos.Linha, pos.Coluna +1);
+                pos.DefinirValores(pos.Linha - 1, pos.Coluna + 1);
             }
 
             return mat;
