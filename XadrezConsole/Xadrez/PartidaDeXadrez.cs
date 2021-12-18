@@ -1,6 +1,7 @@
 ﻿/* >>> CLASSE PARTIDADEXADREZ - PASTA XADREZ <<<
         - Classe contendo a Mecanica de uma Partida de Xadrez
 */
+using System;
 using System.Collections.Generic;
 using Tabuleiro;
 
@@ -145,6 +146,53 @@ namespace Xadrez
                 throw new TabuleiroException("O jogador nao pode colocar a si mesmo em xeque!");
             }
 
+            Peca p = Tab.Peca(destino);
+
+            // #jogadaespecial - Promocao
+            if (p is Peao)
+            {
+                if ((p.Cor == Cor.Branca && destino.Linha == 0) || (p.Cor == Cor.Preta && destino.Linha == 7))
+                {
+                    p = Tab.RetirarPeca(destino);
+                    Pecas.Remove(p);
+
+                    Console.Write("Escolha a peca (D / B / C / T): ");
+                    char pecaPromocao = char.Parse(Console.ReadLine());
+                    
+                    if (pecaPromocao == 'D')
+                    {
+                        Peca dama = new Dama(Tab, p.Cor);
+                        Tab.ColocarPeca(dama, destino);
+                        Pecas.Add(dama);
+                    }
+
+                    if (pecaPromocao == 'B')
+                    {
+                        Peca bispo = new Bispo(Tab, p.Cor);
+                        Tab.ColocarPeca(bispo, destino);
+                        Pecas.Add(bispo);
+                    }
+
+                    if (pecaPromocao == 'C')
+                    {
+                        Peca cavalo = new Cavalo(Tab, p.Cor);
+                        Tab.ColocarPeca(cavalo, destino);
+                        Pecas.Add(cavalo);
+                    }
+
+                    if (pecaPromocao == 'T')
+                    {
+                        Peca torre = new Torre(Tab, p.Cor);
+                        Tab.ColocarPeca(torre, destino);
+                        Pecas.Add(torre);
+                    }
+
+                    /* Peca dama = new Dama(Tab, p.Cor);
+                       Tab.ColocarPeca(dama, destino);
+                       Pecas.Add(dama); */
+                }
+            }
+
             if (EstaEmXeque(Adversaria(JogadorAtual)))
             {
                 Xeque = true;
@@ -163,8 +211,6 @@ namespace Xadrez
                 Turno++;
                 MudaJogador();
             }
-
-            Peca p = Tab.Peca(destino);
 
             // #jogadaespecial - En Passant
             if (p is Peao && (destino.Linha == origem.Linha - 2 || destino.Linha == origem.Linha + 2))
