@@ -5,8 +5,11 @@ namespace Xadrez
 {
     class Peao : Peca
     {
-        public Peao(TabuleiroClasse tab, Cor cor) : base(tab, cor)
+
+        private PartidaDeXadrez Partida;
+        public Peao(TabuleiroClasse tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor)
         {
+            this.Partida = partida;
         }
 
         public override string ToString() // override ToString retornando a letra "R"
@@ -14,7 +17,7 @@ namespace Xadrez
             return "P";
         }
 
-        private bool ExtisteAdversario(Posicao pos) // Verifica se existe peca adversaria
+        private bool ExisteAdversario(Posicao pos) // Verifica se existe peca adversaria
         {
             Peca p = Tab.Peca(pos);
             return p != null && p.Cor != Cor;
@@ -29,7 +32,7 @@ namespace Xadrez
         {
             bool[,] mat = new bool[Tab.Linhas, Tab.Colunas]; // Matriz Booleana para controlar as posicoes do tabuleiro
 
-            Posicao pos = new Posicao(0, 0); // Teste para instanciar uma posicao
+            Posicao pos = new Posicao(0, 0); // Instancia a variavel "pos" do tipo "Posicao"
 
             if (Cor == Cor.Branca) // Se forem pecas Brancas
             {
@@ -47,15 +50,30 @@ namespace Xadrez
                 }
 
                 pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna - 1); // Captura na Diagonal Esquerda das Brancas
-                if (Tab.PosicaoValida(pos) && ExtisteAdversario(pos)) // Se houver adversarios na posicao valida
+                if (Tab.PosicaoValida(pos) && ExisteAdversario(pos)) // Se houver adversarios na posicao valida
                 {
                     mat[pos.Linha, pos.Coluna] = true; // Executa a captura
                 }
 
                 pos.DefinirValores(Posicao.Linha - 1, Posicao.Coluna + 1); // Captura na Diagonal Direita das Brancas
-                if (Tab.PosicaoValida(pos) && ExtisteAdversario(pos)) // Se houver adversarios na posicao valida
+                if (Tab.PosicaoValida(pos) && ExisteAdversario(pos)) // Se houver adversarios na posicao valida
                 {
                     mat[pos.Linha, pos.Coluna] = true; // Executa a captura
+                }
+
+                //#jogadaespecial - En Passant
+                if (Posicao.Linha == 3)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    if (Tab.PosicaoValida(esquerda) && ExisteAdversario(esquerda) && Tab.Peca(esquerda) == Partida.VulneravelEnPassant)
+                    {
+                        mat[esquerda.Linha - 1, esquerda.Coluna] = true;
+                    }
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteAdversario(direita) && Tab.Peca(direita) == Partida.VulneravelEnPassant)
+                    {
+                        mat[direita.Linha - 1, direita.Coluna] = true;
+                    }
                 }
             }
             else // Se forem pecas Pretas
@@ -73,16 +91,31 @@ namespace Xadrez
                     mat[pos.Linha, pos.Coluna] = true; // Executa o movimento
                 }
 
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1); // Captura na Diagonal Esquerda das Pretas
-                if (Tab.PosicaoValida(pos) && ExtisteAdversario(pos)) // Se houver adversarios na posicao valida
+                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1); // Captura na Diagonal Direita das Pretas
+                if (Tab.PosicaoValida(pos) && ExisteAdversario(pos)) // Se houver adversarios na posicao valida
                 {
                     mat[pos.Linha, pos.Coluna] = true; // Executa a captura
                 }
 
-                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna - 1); // Captura na Diagonal Direita das Pretas
-                if (Tab.PosicaoValida(pos) && ExtisteAdversario(pos)) // Se houver adversarios na posicao valida
+                pos.DefinirValores(Posicao.Linha + 1, Posicao.Coluna + 1); // Captura na Diagonal Esquerda das Pretas
+                if (Tab.PosicaoValida(pos) && ExisteAdversario(pos)) // Se houver adversarios na posicao valida
                 {
                     mat[pos.Linha, pos.Coluna] = true; // Executa a captura
+                }
+
+                //#jogadaespecial - En Passant
+                if (Posicao.Linha == 4)
+                {
+                    Posicao esquerda = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    if (Tab.PosicaoValida(esquerda) && ExisteAdversario(esquerda) && Tab.Peca(esquerda) == Partida.VulneravelEnPassant)
+                    {
+                        mat[esquerda.Linha + 1, esquerda.Coluna] = true;
+                    }
+                    Posicao direita = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    if (Tab.PosicaoValida(direita) && ExisteAdversario(direita) && Tab.Peca(direita) == Partida.VulneravelEnPassant)
+                    {
+                        mat[direita.Linha + 1, direita.Coluna] = true;
+                    }
                 }
             }
 
