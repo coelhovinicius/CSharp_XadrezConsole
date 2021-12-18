@@ -5,6 +5,13 @@ namespace Xadrez // Alterado
 {
     class Rei : Peca
     {
+        private PartidaDeXadrez Partida; // Acessa a partida para que o Rei possa utilizar a jogada Roque sem se colocar em Xeque
+
+        // Construtor passando os argumentos para a Superclasse
+        public Rei(TabuleiroClasse tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor)
+        {
+            this.Partida = partida;
+        }
         public Rei(TabuleiroClasse tab, Cor cor) : base(tab, cor) // Repassa a instrucao para a Superclasse
         {
         }
@@ -18,6 +25,13 @@ namespace Xadrez // Alterado
         {
             Peca p = Tab.Peca(pos);
             return p == null || p.Cor != Cor; // Caso a posicao esteja vazia, movimenta a peca (captura a peca adversaria)
+        }
+
+        private bool TesteTorreParaRoque(Posicao pos) // Teste para verificar se a Torre pode participar do Roque
+        {
+            Peca p = Tab.Peca(pos);
+            return p != null && p is Torre && p.Cor == Cor && p.QtdeMovimentos == 0;
+
         }
 
         public override bool[,] MovimentosPossiveis() // Metodo para controlar os movimentos do Rei
@@ -73,6 +87,36 @@ namespace Xadrez // Alterado
             if (Tab.PosicaoValida(pos) && PodeMover(pos)) // Valida a posicao e verifica se pode mover
             {
                 mat[pos.Linha, pos.Coluna] = true; // Determina que o movimento pode ser executado
+            }
+
+            // #jogadaespecial - Roque
+            if (QtdeMovimentos == 0 && !Partida.Xeque) // Verifica se esta em Xeque
+            {
+                // #jogadaespecial - Roque Pequeno
+                Posicao posT1 = new Posicao(Posicao.Linha, Posicao.Coluna + 3); // Faz se a Torre esta no lugar certo para Roque
+                if (TesteTorreParaRoque(posT1)) // Se a Torre puder participar do Roque Pequeno
+                {
+                    Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna + 1);
+                    Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna + 2);
+                    if (Tab.Peca(p1) == null && Tab.Peca(p2) == null) // Verifica se as posicoes do Roque estao livres
+                    {
+                        mat[Posicao.Linha, Posicao.Coluna + 2] = true;
+                    }
+                }
+
+                // #jogadaespecial - Roque Grande
+                Posicao posT2 = new Posicao(Posicao.Linha, Posicao.Coluna - 4); // Faz se a Torre esta no lugar certo para Roque
+                if (TesteTorreParaRoque(posT2)) // Se a Torre puder participar do Roque Grande
+                {
+                    Posicao p1 = new Posicao(Posicao.Linha, Posicao.Coluna - 1);
+                    Posicao p2 = new Posicao(Posicao.Linha, Posicao.Coluna - 2);
+                    Posicao p3 = new Posicao(Posicao.Linha, Posicao.Coluna - 3);
+
+                    if (Tab.Peca(p1) == null && Tab.Peca(p2) == null && Tab.Peca(p3) == null)
+                    {
+                        mat[Posicao.Linha, Posicao.Coluna - 2] = true;
+                    }
+                }
             }
 
             return mat;
